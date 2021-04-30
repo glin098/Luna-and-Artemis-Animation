@@ -126,6 +126,14 @@ class Luna(Layer):
         #message
         self._txt = Text('',12, Point(0, -160))
         self.add(self._txt)
+        #mouth
+        self._mouth = Spline()
+        self._mouth.addPoint(Point(-7,-48))
+        self._mouth.addPoint(Point(0,-40))
+        self._mouth.addPoint(Point(7,-48))
+        self._mouth.adjustReference(7,1)
+        self.add(self._mouth)
+        self._smiling = True
 
     def setColor(self, color):
         '''
@@ -177,19 +185,30 @@ class Luna(Layer):
             self._lefteye.setDepth(60)
             self._closedEyes.setDepth(40)
             self._closedP = True
-    
+            
+    def smile(self):
+        if not self._smiling:
+            self._mouth.rotate(180)
+            self._smiling = True
+
+    def frown(self):
+        if self._smiling:
+            self._mouth.rotate(180)
+            self._smiling = False
 
     
 
 
 if __name__ == '__main__':
     paper = Canvas(600, 500, 'lightcyan')
+    #ground
     ground = Rectangle(600, 200, Point(300, 400))
     ground.setFillColor('plum')
     ground.setBorderColor('palegreen')
     ground.setDepth(65)
     paper.add(ground)
     
+    #cats
     luna1 = Luna()
     luna1.moveTo(300,250)
     paper.add(luna1)
@@ -198,15 +217,18 @@ if __name__ == '__main__':
     sleep(2)
     luna1.openEyesWink()
     sleep(.5)
-    luna1.speak('My name is Luna.\nThese are my children.\nCome say hi!')
+    luna1.speak('My name is Luna.\nThese are my children.\nPlease watch over them while I am gone.')
     sleep(3)
     luna1.speak('')
+    sleep(2)
+    luna1.move(610,510)
     
     luna2 = Luna('grey')
-    luna2.moveTo(200, 300)
-    luna2.scale(.6)
+    luna2.moveTo(240, 300)
+    luna2.scale(.65)
     luna2.setOrnaColor('red')
     luna2.setCollarColor('black')
+    luna2.speak('  meow\nmeow meow')
     paper.add(luna2)
     
     luna3 = Luna('mistyrose')
@@ -214,5 +236,49 @@ if __name__ == '__main__':
     luna3.scale(.8)
     luna3.setOrnaColor('violet')
     luna3.setCollarColor('gold')
+    luna3.speak('meow   meow\n      meow')
     paper.add(luna3)
+
+    luna4 = Luna('lightcyan')
+    luna4.moveTo(180,310)
+    luna4.scale(.7)
+    luna4.setOrnaColor('darkcyan')
+    luna4.setCollarColor('mediumaquamarine')
+    luna4.speak('   meow\nmeow')
+    paper.add(luna4)
+
+    #animation
+    sleep(3)
+    luna3.move(50,0)
+    sleep(1)
+    luna3.move(100,0)
+    sleep(1)
+    luna3.move(100,0)
+    luna2.frown()
+    luna2.move(-50,0)
+    sleep(2)
+    luna2.move(-50,0)
+    sleep(1)
+    luna2.move(-200,0)
+    luna4.frown()
+    luna4.speak('I wanna go play too...')
+    sleep(2)
+    luna4.speak('')
+    luna4.smile()
+    luna4.move(-50,0)
+    sleep(2)
+    luna4.move(-50,0)
+    sleep(1)
+    luna4.move(-200,0)
+    sleep(2)
+    luna1.move(-610,-510)
+    luna1.speak('I am back...Where is everyone?')
+    sleep(1)
+    luna1.frown()
+    luna1.speak('You had one job :(')
+    sleep(2)
+    luna1.move(0,50)
+    luna1.scale(3)
+    
+    
     
